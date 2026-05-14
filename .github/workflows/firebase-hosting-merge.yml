@@ -1,0 +1,30 @@
+# Deploy Firebase Hosting when main is pushed.
+name: Deploy to Firebase Hosting on push
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/818124276251/locations/global/workloadIdentityPools/github-actions/providers/lazydog-homepage
+          service_account: github-actions-deploy@lazydog-homepage.iam.gserviceaccount.com
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm install -g firebase-tools
+
+      - run: firebase deploy --only hosting --project lazydog-homepage
