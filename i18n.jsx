@@ -10,10 +10,10 @@ const I18N = {
       titleHL: 'big naps.',
       lede: 'We build quiet, useful tools at our own pace. A loosely-organised lab run by one shiba and a few caffeinated humans.',
       cta: 'See the experiments',
-      meta: '3 active projects',
+      meta: '4 active projects',
     },
     sectionLabel: 'Active experiments',
-    sectionTitle: 'Three flasks, currently bubbling.',
+    sectionTitle: 'Four flasks, currently bubbling.',
     sectionSub: 'Each one solves something small that bothered us. Click in to try.',
     projects: {
       lingua: {
@@ -33,6 +33,12 @@ const I18N = {
         name: 'Mic',
         desc: 'A simulated radio for the web — real-time voice with friends, no apps, no accounts. Pick a channel, press to talk.',
         cta: 'Open Mic',
+      },
+      ridey: {
+        tag: 'EXP-04 · Ride weather',
+        name: 'Ridey',
+        desc: 'Pulls today’s weather and scores it for motorcyclists — wind, rain, temperature, visibility. Helmet on, or coffee day?',
+        cta: 'Open Ridey',
       },
     },
     statusOk: 'all systems napping peacefully',
@@ -63,10 +69,10 @@ const I18N = {
       titleHL: '睡个大午觉。',
       lede: '我们按自己的节奏，做安静又好用的小工具。一只柴犬带着几个嗜咖啡因的人类，凑成了这个松散的实验室。',
       cta: '查看实验',
-      meta: '3 个进行中的项目',
+      meta: '4 个进行中的项目',
     },
     sectionLabel: '进行中的实验',
-    sectionTitle: '三个烧瓶，正在咕嘟咕嘟。',
+    sectionTitle: '四个烧瓶，正在咕嘟咕嘟。',
     sectionSub: '每一个，都是为了解决一件让我们抓狂的小事。点进去试试。',
     projects: {
       lingua: {
@@ -78,7 +84,7 @@ const I18N = {
       drive: {
         tag: 'EXP-02 · 模拟驾驶',
         name: 'Drive',
-        desc: '在浏览器里开的日本驾校模拟。练考试路线、记交通标志、坐在椅子上安心翻车。',
+        desc: '在浏览器里开的日本驾校模拟器。练考试路线、记交通标志、坐在椅子上安心翻车。',
         cta: '打开 Drive',
       },
       mic: {
@@ -86,6 +92,12 @@ const I18N = {
         name: 'Mic',
         desc: '网页里的模拟无线电 —— 和朋友实时语音，不用装 App、不用注册。选个频道，按住说话。',
         cta: '打开 Mic',
+      },
+      ridey: {
+        tag: 'EXP-04 · 骑行天气',
+        name: 'Ridey',
+        desc: '为摩托车骑士读今天的天气 —— 风、雨、温度、能见度，打分告诉你今天是戴头盔出发，还是坐下来喝杯咖啡。',
+        cta: '打开 Ridey',
       },
     },
     statusOk: '一切系统正在安详地午睡',
@@ -116,10 +128,10 @@ const I18N = {
       titleHL: 'おおきな昼寝。',
       lede: '自分たちのペースで、静かで役に立つ道具を作っています。柴犬一匹と、カフェイン多めの人間が数人。ゆるく回している実験室です。',
       cta: '実験を見る',
-      meta: '進行中のプロジェクト 3 件',
+      meta: '進行中のプロジェクト 4 件',
     },
     sectionLabel: '進行中の実験',
-    sectionTitle: '三本のフラスコ、ふつふつ煮込み中。',
+    sectionTitle: '四本のフラスコ、ふつふつ煮込み中。',
     sectionSub: 'どれも「ちょっと困っていたこと」を解くためのもの。気軽に触ってみてください。',
     projects: {
       lingua: {
@@ -139,6 +151,12 @@ const I18N = {
         name: 'Mic',
         desc: 'ウェブで動く模擬トランシーバー。アプリも登録も要らずに、友達とリアルタイム通話。チャンネルを選んで、押して話すだけ。',
         cta: 'Mic を開く',
+      },
+      ridey: {
+        tag: 'EXP-04 · ライド天気',
+        name: 'Ridey',
+        desc: 'バイク乗りのために今日の天気をスコア化。風・雨・気温・視界を読んで、ヘルメットを被るか、コーヒーにするかを教えてくれます。',
+        cta: 'Ridey を開く',
       },
     },
     statusOk: '全システム、すやすや稼働中',

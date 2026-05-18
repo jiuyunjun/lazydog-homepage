@@ -491,8 +491,11 @@ img { display: block; max-width: 100%; }
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+@media (max-width: 1180px) {
+  .project-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 .project-card {
@@ -525,8 +528,8 @@ img { display: block; max-width: 100%; }
 .project-card:hover::before { opacity: 1; }
 
 .card-flask {
-  width: 210px;
-  height: 210px;
+  width: 180px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;

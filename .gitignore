@@ -1,5 +1,6 @@
 .firebase/
 .history/
+newer/
 .firebaserc.local
 node_modules/
 dist/

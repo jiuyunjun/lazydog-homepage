@@ -161,7 +161,7 @@ function ProjectCard({ exp, url, liquid, accent, label, idx }) {
       style={{ '--card-accent': liquid }}
     >
       <div className="card-flask">
-        <Flask liquid={liquid} accent={accent} label={label} size={210} tiltDeg={hover ? -3 : 0} />
+        <Flask liquid={liquid} accent={accent} label={label} size={180} tiltDeg={hover ? -3 : 0} />
       </div>
       <div className="card-body">
         <div className="card-tag">{exp.tag}</div>
@@ -282,9 +282,9 @@ function App() {
 
   // Liquid palette options
   const liquidPalettes = {
-    shibaTeal: { lingua: '#E89B3C', drive: '#4BAEC9', mic: '#7FBF7F' },
-    classic:   { lingua: '#4BAEC9', drive: '#7FD0E3', mic: '#1F6F8B' },
-    sunset:    { lingua: '#E89B3C', drive: '#D85D5D', mic: '#8C5BB0' },
+    shibaTeal: { lingua: '#E89B3C', drive: '#4BAEC9', mic: '#7FBF7F', ridey: '#D85D5D' },
+    classic:   { lingua: '#4BAEC9', drive: '#7FD0E3', mic: '#1F6F8B', ridey: '#5B7CC8' },
+    sunset:    { lingua: '#E89B3C', drive: '#D85D5D', mic: '#8C5BB0', ridey: '#E8B23C' },
   };
   const liquids = liquidPalettes[tweaks.accentLiquid] || liquidPalettes.shibaTeal;
   const accent = 'var(--ink)';
@@ -293,6 +293,7 @@ function App() {
     { key: 'lingua', exp: t.projects.lingua, url: 'https://linguabridge.lazydoglab.com/', liquid: liquids.lingua, label: 'L-01' },
     { key: 'drive',  exp: t.projects.drive,  url: 'https://drive.lazydoglab.com/',        liquid: liquids.drive,  label: 'D-02' },
     { key: 'mic',    exp: t.projects.mic,    url: 'https://mic.lazydoglab.com/',          liquid: liquids.mic,    label: 'M-03' },
+    { key: 'ridey',  exp: t.projects.ridey,  url: 'https://ridey.lazydoglab.com/',        liquid: liquids.ridey,  label: 'R-04' },
   ];
 
   return (
