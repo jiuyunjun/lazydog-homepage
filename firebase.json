@@ -6,18 +6,12 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "predeploy": [
+      "node scripts/stamp-assets.mjs --check"
+    ],
     "headers": [
       {
-        "source": "**/*.@(js|jsx|css)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache"
-          }
-        ]
-      },
-      {
-        "source": "**/*.@(png|jpg|jpeg|webp|gif|svg|ico)",
+        "source": "**/*.@(js|jsx|css|png|jpg|jpeg|webp|gif|svg|ico)",
         "headers": [
           {
             "key": "Cache-Control",

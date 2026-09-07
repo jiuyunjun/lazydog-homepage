@@ -84,7 +84,7 @@ function Flask({ liquid = '#4BAEC9', bubbles = true, label, accent = '#1F3A5C', 
 function Mascot({ showZzz = true }) {
   return (
     <div className="mascot">
-      <img src="assets/logo.png" alt="Sleeping shiba in a flask — LazyDogLab mascot" className="mascot-img" />
+      <img src="assets/logo.png?v=__V__" alt="Sleeping shiba in a flask — LazyDogLab mascot" className="mascot-img" />
       {showZzz && (
         <div className="zzz" aria-hidden="true">
           <span className="z z1">z</span>
@@ -337,7 +337,7 @@ function App() {
       {/* TOP BAR */}
       <header className="topbar">
         <a className="brand" href="#top">
-          <img src="assets/logo.png" alt="" className="brand-mark" />
+          <img src="assets/logo.png?v=__V__" alt="" className="brand-mark" />
           <span className="brand-text">
             <span className="brand-lazy">LazyDog</span><span className="brand-lab">Lab</span>
           </span>
