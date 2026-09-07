@@ -1,0 +1,22 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1240, "h": 1420, "title": "Projects grid — shipped" }
+  ],
+  "annotations": [
+    {
+      "id": "note-shipped",
+      "x": 0,
+      "y": -250,
+      "w": 900,
+      "text": "SHIPPED — this is what is live on lazydoglab.com.\n\nThe 4-column grid stays. The newest experiment takes a featured slot spanning 2 columns and reading horizontally, so 1 feature + 6 regular cards fill exactly two rows. The feature slot rotates to whatever just shipped (Rainsoon today).\n\nBuilt at the real proportions: the 2-column span is ~552px, so the featured flask is 190px and its title 30px — at the 230px/38px the first draft used, the text column collapsed to ~230px and the title wrapped."
+    },
+    {
+      "id": "note-details",
+      "x": 0,
+      "y": 1510,
+      "w": 900,
+      "text": "Three new liquid colors extend the existing wheel — LocalNetFTP violet #9B7BC4, Zhinzen magenta #C46B9E, Rainsoon indigo #5C7DB8 — with matching entries in the Cool blues and Sunset palettes. Flask codes F-05 / Z-06 / W-07.\n\nLocalNetFTP is a Windows desktop app, so its card links to the GitHub repo and says \"View on GitHub\" instead of \"Open\".\n\nBelow 980px the grid drops to one column and the featured card loses its span, stacking like every other card."
+    }
+  ],
+  "launch": { "view": "focused", "file": "Main.dc.html" }
+}

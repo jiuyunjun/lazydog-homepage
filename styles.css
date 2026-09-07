@@ -377,6 +377,15 @@ img { display: block; max-width: 100%; }
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+/* Spin the circle inside the viewBox, not the <svg> element: rotating the
+   element itself grows and shrinks its bounding box, which made the document's
+   scrollable area oscillate over the 60s cycle (horizontal overflow on phones,
+   and a slow drift after scrolling). A circle rotated about its own centre
+   leaves the box untouched. */
+.hero-ring circle {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
   animation: spinSlow 60s linear infinite;
 }
 @keyframes spinSlow { to { transform: rotate(360deg); } }

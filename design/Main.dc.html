@@ -1,0 +1,505 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: inherit; }
+
+    .theme-cream {
+      --bg: #F4EFE0; --cream-deep: #ECE5D2; --paper: #FBF8EE;
+      --ink: #1F3A5C; --ink-soft: #4A5E7C;
+      --shiba: #E89B3C; --teal: #4BAEC9;
+      --rule: rgba(31, 58, 92, 0.14);
+      --shadow: rgba(31, 58, 92, 0.25);
+    }
+    .theme-dark {
+      --bg: #15243A; --cream-deep: #1B2C44; --paper: #1E3050;
+      --ink: #F4EFE0; --ink-soft: #B7C4D5;
+      --shiba: #E89B3C; --teal: #4BAEC9;
+      --rule: rgba(244, 239, 224, 0.16);
+      --shadow: rgba(0, 0, 0, 0.45);
+    }
+
+    .root {
+      font-family: "Nunito", system-ui, sans-serif;
+      background: var(--bg); color: var(--ink);
+      font-size: 16px; line-height: 1.55;
+      -webkit-font-smoothing: antialiased; position: relative;
+    }
+    .paper-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(var(--rule) 1px, transparent 1px),
+        linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+      background-size: 32px 32px; opacity: 0.55;
+      mask-image: radial-gradient(circle at 50% 20%, #000 26%, transparent 74%);
+      -webkit-mask-image: radial-gradient(circle at 50% 20%, #000 26%, transparent 74%);
+    }
+
+    .section-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-soft); margin-bottom: 14px;
+    }
+    .eyebrow-bar { display: inline-block; width: 24px; height: 2px; background: var(--shiba); }
+    .section-title {
+      font-family: "Nunito", system-ui, sans-serif;
+      font-weight: 800; font-size: 44px; letter-spacing: -0.02em;
+      line-height: 1.12; margin: 0 0 14px; color: var(--ink);
+    }
+    .section-sub { font-size: 17px; color: var(--ink-soft); margin: 0; }
+
+    .project-card {
+      position: relative;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 28px 24px;
+      background: var(--paper);
+      border: 1.5px solid var(--rule);
+      border-radius: 22px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .card-flask { width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+    .card-tag {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink-soft); margin-bottom: 8px;
+    }
+    .card-name {
+      font-family: "Nunito", system-ui, sans-serif;
+      font-size: 26px; font-weight: 800; margin: 0 0 10px;
+      letter-spacing: -0.015em; color: var(--ink);
+    }
+    .card-desc {
+      font-size: 14.5px; line-height: 1.6; color: var(--ink-soft);
+      margin: 0 0 18px; min-height: 90px; text-wrap: pretty;
+    }
+    .card-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: "Nunito", system-ui, sans-serif;
+      font-weight: 700; font-size: 14px; color: var(--ink);
+      padding: 8px 16px; border-radius: 999px; background: var(--cream-deep);
+    }
+    .card-host {
+      margin-top: 14px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11px; color: var(--ink-soft); opacity: 0.7;
+    }
+
+    /* Featured specimen — spans two columns, reads horizontally */
+    .feature-card {
+      position: relative;
+      grid-column: span 2;
+      display: flex; align-items: center; gap: 24px;
+      padding: 28px;
+      background: var(--paper);
+      border: 1.5px solid var(--card-accent);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px -22px var(--shadow);
+    }
+    .feature-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 4px; background: var(--card-accent);
+    }
+    .feature-flask { width: 190px; height: 190px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .feature-flask svg { width: 100%; height: 100%; }
+    .feature-tape {
+      position: absolute; top: 18px; right: -34px;
+      transform: rotate(34deg);
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600;
+      background: rgba(232, 155, 60, 0.28);
+      border-top: 1px dashed rgba(31, 58, 92, 0.35);
+      border-bottom: 1px dashed rgba(31, 58, 92, 0.35);
+      color: var(--ink);
+      padding: 5px 44px;
+    }
+    .feature-name {
+      font-family: "Nunito", system-ui, sans-serif;
+      font-size: 30px; font-weight: 800; margin: 0 0 12px;
+      letter-spacing: -0.02em; color: var(--ink);
+    }
+    .feature-desc {
+      font-size: 15px; line-height: 1.65; color: var(--ink-soft);
+      margin: 0 0 20px; text-wrap: pretty;
+    }
+    .feature-cta {
+      display: inline-flex; align-items: center; gap: 14px;
+      font-family: "Nunito", system-ui, sans-serif;
+      font-weight: 700; font-size: 15px;
+      color: var(--paper); background: var(--ink);
+      padding: 12px 22px; border-radius: 999px;
+    }
+
+    .more-soon {
+      margin-top: 22px;
+      display: flex; align-items: center; justify-content: center; gap: 20px;
+      padding: 28px;
+      border: 1.5px dashed var(--rule);
+      border-radius: 22px;
+      color: var(--ink-soft); font-size: 15px;
+      background: color-mix(in srgb, var(--paper) 50%, transparent);
+    }
+    .more-soon p { margin: 0; max-width: 480px; text-wrap: pretty; }
+  </style>
+</helmet>
+
+<div class="root {{themeClass}}" style="min-height: 100%; padding: 56px 48px 64px;">
+  <div class="paper-grid"></div>
+
+  <div style="position: relative; max-width: 1144px; margin: 0 auto;">
+
+    <div style="text-align: center; max-width: 700px; margin: 0 auto 56px;">
+      <div class="section-eyebrow"><span class="eyebrow-bar"></span>Active experiments</div>
+      <h2 class="section-title">Seven flasks, one on the bench.</h2>
+      <p class="section-sub">Each one solves something small that bothered us. Click in to try.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px;">
+
+      <!-- FEATURED: EXP-07 Rainsoon -->
+      <a class="feature-card" style="--card-accent: #5C7DB8;">
+        <div class="feature-tape">just poured</div>
+        <div class="feature-flask">
+          <svg viewBox="0 0 200 240" width="230" height="230" style="display: block;">
+            <defs>
+              <clipPath id="liq-7"><path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22 Z"></path></clipPath>
+              <linearGradient id="grad-7" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#5C7DB8" stop-opacity="0.55"></stop>
+                <stop offset="100%" stop-color="#5C7DB8" stop-opacity="1"></stop>
+              </linearGradient>
+            </defs>
+            <path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22" fill="none" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"></path>
+            <path d="M76 22 L124 22" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"></path>
+            <ellipse cx="100" cy="22" rx="22" ry="3.5" fill="var(--ink)"></ellipse>
+            <g clip-path="url(#liq-7)">
+              <rect x="0" y="112" width="200" height="150" fill="url(#grad-7)"></rect>
+              <path d="M0 112 Q 25 104, 50 112 T 100 112 T 150 112 T 200 112 L 200 132 L 0 132 Z" fill="#5C7DB8" opacity="0.9"></path>
+              <g fill="#fff" opacity="0.85">
+                <circle cx="76" cy="176" r="3.4"></circle>
+                <circle cx="110" cy="192" r="2.6"></circle>
+                <circle cx="128" cy="154" r="3"></circle>
+              </g>
+            </g>
+            <g stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" opacity="0.45">
+              <line x1="64" y1="140" x2="72" y2="140"></line>
+              <line x1="58" y1="160" x2="66" y2="160"></line>
+              <line x1="52" y1="180" x2="60" y2="180"></line>
+              <line x1="46" y1="200" x2="54" y2="200"></line>
+            </g>
+            <rect x="78" y="140" width="44" height="36" rx="3" fill="#FBF8EE" stroke="var(--ink)" stroke-width="1.6"></rect>
+            <text x="100" y="156" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="var(--ink)" font-weight="700">W-07</text>
+            <line x1="84" y1="162" x2="116" y2="162" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+            <line x1="84" y1="168" x2="116" y2="168" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+          </svg>
+        </div>
+        <div style="display: flex; flex-direction: column; min-width: 0;">
+          <div class="card-tag">EXP-07 · Rain nowcast</div>
+          <h3 class="feature-name">Rainsoon 雨临</h3>
+          <p class="feature-desc">Samples the rain radar right over your spot and reads the next hour: when it starts, when it eases, how hard it gets — plus a look at where the clouds came from.</p>
+          <div>
+            <span class="feature-cta">
+              <span>Open Rainsoon</span>
+              <svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M1 7 H 19 M 14 2 L 20 7 L 14 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+          </div>
+          <div class="card-host">rainsoon.lazydoglab.com</div>
+        </div>
+      </a>
+
+      <!-- EXP-05 LocalNetFTP -->
+      <a class="project-card" style="--card-accent: #9B7BC4;">
+        <div class="card-flask">
+          <svg viewBox="0 0 200 240" width="180" height="180" style="display: block;">
+            <defs>
+              <clipPath id="liq-5"><path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22 Z"></path></clipPath>
+              <linearGradient id="grad-5" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#9B7BC4" stop-opacity="0.55"></stop>
+                <stop offset="100%" stop-color="#9B7BC4" stop-opacity="1"></stop>
+              </linearGradient>
+            </defs>
+            <path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22" fill="none" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"></path>
+            <path d="M76 22 L124 22" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"></path>
+            <ellipse cx="100" cy="22" rx="22" ry="3.5" fill="var(--ink)"></ellipse>
+            <g clip-path="url(#liq-5)">
+              <rect x="0" y="120" width="200" height="140" fill="url(#grad-5)"></rect>
+              <path d="M0 120 Q 25 112, 50 120 T 100 120 T 150 120 T 200 120 L 200 140 L 0 140 Z" fill="#9B7BC4" opacity="0.9"></path>
+              <g fill="#fff" opacity="0.85"><circle cx="76" cy="170" r="3"></circle><circle cx="108" cy="190" r="2.6"></circle><circle cx="128" cy="160" r="3.2"></circle></g>
+            </g>
+            <g stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" opacity="0.45">
+              <line x1="64" y1="140" x2="72" y2="140"></line>
+              <line x1="58" y1="160" x2="66" y2="160"></line>
+              <line x1="52" y1="180" x2="60" y2="180"></line>
+              <line x1="46" y1="200" x2="54" y2="200"></line>
+            </g>
+            <rect x="78" y="140" width="44" height="36" rx="3" fill="#FBF8EE" stroke="var(--ink)" stroke-width="1.6"></rect>
+            <text x="100" y="156" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="var(--ink)" font-weight="700">F-05</text>
+            <line x1="84" y1="162" x2="116" y2="162" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+            <line x1="84" y1="168" x2="116" y2="168" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">EXP-05 · Desktop app</div>
+          <h3 class="card-name">LocalNetFTP</h3>
+          <p class="card-desc">Moves files between two machines on the same network — no cloud, no account. Finds the other computer itself and resumes what got cut off.</p>
+          <div class="card-cta">
+            <span>View on GitHub</span>
+            <svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M1 7 H 19 M 14 2 L 20 7 L 14 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+        </div>
+        <div class="card-host">github.com/jiuyunjun/local-net-ftp</div>
+      </a>
+
+      <!-- EXP-06 Zhinzen -->
+      <a class="project-card" style="--card-accent: #C46B9E;">
+        <div class="card-flask">
+          <svg viewBox="0 0 200 240" width="180" height="180" style="display: block;">
+            <defs>
+              <clipPath id="liq-6"><path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22 Z"></path></clipPath>
+              <linearGradient id="grad-6" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#C46B9E" stop-opacity="0.55"></stop>
+                <stop offset="100%" stop-color="#C46B9E" stop-opacity="1"></stop>
+              </linearGradient>
+            </defs>
+            <path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22" fill="none" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"></path>
+            <path d="M76 22 L124 22" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"></path>
+            <ellipse cx="100" cy="22" rx="22" ry="3.5" fill="var(--ink)"></ellipse>
+            <g clip-path="url(#liq-6)">
+              <rect x="0" y="120" width="200" height="140" fill="url(#grad-6)"></rect>
+              <path d="M0 120 Q 25 112, 50 120 T 100 120 T 150 120 T 200 120 L 200 140 L 0 140 Z" fill="#C46B9E" opacity="0.9"></path>
+              <g fill="#fff" opacity="0.85"><circle cx="72" cy="184" r="2.6"></circle><circle cx="104" cy="160" r="3.4"></circle><circle cx="132" cy="178" r="2.4"></circle></g>
+            </g>
+            <g stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" opacity="0.45">
+              <line x1="64" y1="140" x2="72" y2="140"></line>
+              <line x1="58" y1="160" x2="66" y2="160"></line>
+              <line x1="52" y1="180" x2="60" y2="180"></line>
+              <line x1="46" y1="200" x2="54" y2="200"></line>
+            </g>
+            <rect x="78" y="140" width="44" height="36" rx="3" fill="#FBF8EE" stroke="var(--ink)" stroke-width="1.6"></rect>
+            <text x="100" y="156" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="var(--ink)" font-weight="700">Z-06</text>
+            <line x1="84" y1="162" x2="116" y2="162" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+            <line x1="84" y1="168" x2="116" y2="168" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">EXP-06 · Live location</div>
+          <h3 class="card-name">Zhinzen 指您针</h3>
+          <p class="card-desc">Share where you are with the people you are meeting, live. Open a room, pass the link. No sign-up: the device is you.</p>
+          <div class="card-cta">
+            <span>Open Zhinzen</span>
+            <svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M1 7 H 19 M 14 2 L 20 7 L 14 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+        </div>
+        <div class="card-host">zhinzen.lazydoglab.com</div>
+      </a>
+
+      <!-- EXP-01 LinguaBridge -->
+      <a class="project-card" style="--card-accent: #E89B3C;">
+        <div class="card-flask">
+          <svg viewBox="0 0 200 240" width="180" height="180" style="display: block;">
+            <defs>
+              <clipPath id="liq-1"><path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22 Z"></path></clipPath>
+              <linearGradient id="grad-1" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#E89B3C" stop-opacity="0.55"></stop>
+                <stop offset="100%" stop-color="#E89B3C" stop-opacity="1"></stop>
+              </linearGradient>
+            </defs>
+            <path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22" fill="none" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"></path>
+            <path d="M76 22 L124 22" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"></path>
+            <ellipse cx="100" cy="22" rx="22" ry="3.5" fill="var(--ink)"></ellipse>
+            <g clip-path="url(#liq-1)">
+              <rect x="0" y="120" width="200" height="140" fill="url(#grad-1)"></rect>
+              <path d="M0 120 Q 25 112, 50 120 T 100 120 T 150 120 T 200 120 L 200 140 L 0 140 Z" fill="#E89B3C" opacity="0.9"></path>
+              <g fill="#fff" opacity="0.85"><circle cx="70" cy="168" r="3.5"></circle><circle cx="116" cy="186" r="2.5"></circle><circle cx="134" cy="154" r="2.8"></circle></g>
+            </g>
+            <g stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" opacity="0.45">
+              <line x1="64" y1="140" x2="72" y2="140"></line>
+              <line x1="58" y1="160" x2="66" y2="160"></line>
+              <line x1="52" y1="180" x2="60" y2="180"></line>
+              <line x1="46" y1="200" x2="54" y2="200"></line>
+            </g>
+            <rect x="78" y="140" width="44" height="36" rx="3" fill="#FBF8EE" stroke="var(--ink)" stroke-width="1.6"></rect>
+            <text x="100" y="156" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="var(--ink)" font-weight="700">L-01</text>
+            <line x1="84" y1="162" x2="116" y2="162" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+            <line x1="84" y1="168" x2="116" y2="168" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">EXP-01 · Browser ext.</div>
+          <h3 class="card-name">LinguaBridge</h3>
+          <p class="card-desc">Translates any page, drafts your replies, and turns what you read into study material — without leaving the tab.</p>
+          <div class="card-cta">
+            <span>Open LinguaBridge</span>
+            <svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M1 7 H 19 M 14 2 L 20 7 L 14 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+        </div>
+        <div class="card-host">linguabridge.lazydoglab.com</div>
+      </a>
+
+      <!-- EXP-02 Drive -->
+      <a class="project-card" style="--card-accent: #4BAEC9;">
+        <div class="card-flask">
+          <svg viewBox="0 0 200 240" width="180" height="180" style="display: block;">
+            <defs>
+              <clipPath id="liq-2"><path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22 Z"></path></clipPath>
+              <linearGradient id="grad-2" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#4BAEC9" stop-opacity="0.55"></stop>
+                <stop offset="100%" stop-color="#4BAEC9" stop-opacity="1"></stop>
+              </linearGradient>
+            </defs>
+            <path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22" fill="none" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"></path>
+            <path d="M76 22 L124 22" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"></path>
+            <ellipse cx="100" cy="22" rx="22" ry="3.5" fill="var(--ink)"></ellipse>
+            <g clip-path="url(#liq-2)">
+              <rect x="0" y="120" width="200" height="140" fill="url(#grad-2)"></rect>
+              <path d="M0 120 Q 25 112, 50 120 T 100 120 T 150 120 T 200 120 L 200 140 L 0 140 Z" fill="#4BAEC9" opacity="0.9"></path>
+              <g fill="#fff" opacity="0.85"><circle cx="72" cy="180" r="3"></circle><circle cx="112" cy="158" r="2.5"></circle><circle cx="132" cy="176" r="3.2"></circle></g>
+            </g>
+            <g stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" opacity="0.45">
+              <line x1="64" y1="140" x2="72" y2="140"></line>
+              <line x1="58" y1="160" x2="66" y2="160"></line>
+              <line x1="52" y1="180" x2="60" y2="180"></line>
+              <line x1="46" y1="200" x2="54" y2="200"></line>
+            </g>
+            <rect x="78" y="140" width="44" height="36" rx="3" fill="#FBF8EE" stroke="var(--ink)" stroke-width="1.6"></rect>
+            <text x="100" y="156" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="var(--ink)" font-weight="700">D-02</text>
+            <line x1="84" y1="162" x2="116" y2="162" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+            <line x1="84" y1="168" x2="116" y2="168" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">EXP-02 · Driving sim</div>
+          <h3 class="card-name">Drive</h3>
+          <p class="card-desc">A Japanese driving-school simulator in your browser. Practice the test course, learn the signs, fail safely from a chair.</p>
+          <div class="card-cta">
+            <span>Open Drive</span>
+            <svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M1 7 H 19 M 14 2 L 20 7 L 14 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+        </div>
+        <div class="card-host">drive.lazydoglab.com</div>
+      </a>
+
+      <!-- EXP-03 Mic -->
+      <a class="project-card" style="--card-accent: #7FBF7F;">
+        <div class="card-flask">
+          <svg viewBox="0 0 200 240" width="180" height="180" style="display: block;">
+            <defs>
+              <clipPath id="liq-3"><path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22 Z"></path></clipPath>
+              <linearGradient id="grad-3" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#7FBF7F" stop-opacity="0.55"></stop>
+                <stop offset="100%" stop-color="#7FBF7F" stop-opacity="1"></stop>
+              </linearGradient>
+            </defs>
+            <path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22" fill="none" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"></path>
+            <path d="M76 22 L124 22" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"></path>
+            <ellipse cx="100" cy="22" rx="22" ry="3.5" fill="var(--ink)"></ellipse>
+            <g clip-path="url(#liq-3)">
+              <rect x="0" y="120" width="200" height="140" fill="url(#grad-3)"></rect>
+              <path d="M0 120 Q 25 112, 50 120 T 100 120 T 150 120 T 200 120 L 200 140 L 0 140 Z" fill="#7FBF7F" opacity="0.9"></path>
+              <g fill="#fff" opacity="0.85"><circle cx="78" cy="162" r="2.6"></circle><circle cx="106" cy="184" r="3.4"></circle><circle cx="128" cy="166" r="2.2"></circle></g>
+            </g>
+            <g stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" opacity="0.45">
+              <line x1="64" y1="140" x2="72" y2="140"></line>
+              <line x1="58" y1="160" x2="66" y2="160"></line>
+              <line x1="52" y1="180" x2="60" y2="180"></line>
+              <line x1="46" y1="200" x2="54" y2="200"></line>
+            </g>
+            <rect x="78" y="140" width="44" height="36" rx="3" fill="#FBF8EE" stroke="var(--ink)" stroke-width="1.6"></rect>
+            <text x="100" y="156" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="var(--ink)" font-weight="700">M-03</text>
+            <line x1="84" y1="162" x2="116" y2="162" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+            <line x1="84" y1="168" x2="116" y2="168" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">EXP-03 · Walkie-talkie</div>
+          <h3 class="card-name">Mic</h3>
+          <p class="card-desc">A simulated radio for the web — real-time voice with friends, no apps, no accounts. Pick a channel, press to talk.</p>
+          <div class="card-cta">
+            <span>Open Mic</span>
+            <svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M1 7 H 19 M 14 2 L 20 7 L 14 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+        </div>
+        <div class="card-host">mic.lazydoglab.com</div>
+      </a>
+
+      <!-- EXP-04 Ridey -->
+      <a class="project-card" style="--card-accent: #D85D5D;">
+        <div class="card-flask">
+          <svg viewBox="0 0 200 240" width="180" height="180" style="display: block;">
+            <defs>
+              <clipPath id="liq-4"><path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22 Z"></path></clipPath>
+              <linearGradient id="grad-4" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#D85D5D" stop-opacity="0.55"></stop>
+                <stop offset="100%" stop-color="#D85D5D" stop-opacity="1"></stop>
+              </linearGradient>
+            </defs>
+            <path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22" fill="none" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"></path>
+            <path d="M76 22 L124 22" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"></path>
+            <ellipse cx="100" cy="22" rx="22" ry="3.5" fill="var(--ink)"></ellipse>
+            <g clip-path="url(#liq-4)">
+              <rect x="0" y="120" width="200" height="140" fill="url(#grad-4)"></rect>
+              <path d="M0 120 Q 25 112, 50 120 T 100 120 T 150 120 T 200 120 L 200 140 L 0 140 Z" fill="#D85D5D" opacity="0.9"></path>
+              <g fill="#fff" opacity="0.85"><circle cx="74" cy="176" r="3.2"></circle><circle cx="110" cy="150" r="2.4"></circle><circle cx="130" cy="182" r="2.8"></circle></g>
+            </g>
+            <g stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" opacity="0.45">
+              <line x1="64" y1="140" x2="72" y2="140"></line>
+              <line x1="58" y1="160" x2="66" y2="160"></line>
+              <line x1="52" y1="180" x2="60" y2="180"></line>
+              <line x1="46" y1="200" x2="54" y2="200"></line>
+            </g>
+            <rect x="78" y="140" width="44" height="36" rx="3" fill="#FBF8EE" stroke="var(--ink)" stroke-width="1.6"></rect>
+            <text x="100" y="156" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="var(--ink)" font-weight="700">R-04</text>
+            <line x1="84" y1="162" x2="116" y2="162" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+            <line x1="84" y1="168" x2="116" y2="168" stroke="var(--ink)" stroke-width="0.6" opacity="0.5"></line>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">EXP-04 · Ride weather</div>
+          <h3 class="card-name">Ridey</h3>
+          <p class="card-desc">Scores today's weather for motorcyclists — wind, rain, temperature, visibility. Helmet on, or coffee day?</p>
+          <div class="card-cta">
+            <span>Open Ridey</span>
+            <svg width="22" height="14" viewBox="0 0 22 14" fill="none"><path d="M1 7 H 19 M 14 2 L 20 7 L 14 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+        </div>
+        <div class="card-host">ridey.lazydoglab.com</div>
+      </a>
+
+    </div>
+
+    <div class="more-soon">
+      <div style="flex-shrink: 0; opacity: 0.85;">
+        <svg viewBox="0 0 200 240" width="90" height="90" style="display: block;">
+          <path d="M82 22 L82 78 L36 198 Q34 218 56 218 L144 218 Q166 218 164 198 L118 78 L118 22" fill="none" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"></path>
+          <path d="M76 22 L124 22" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"></path>
+          <ellipse cx="100" cy="22" rx="22" ry="3.5" fill="var(--ink)"></ellipse>
+          <rect x="78" y="140" width="44" height="36" rx="3" fill="#FBF8EE" stroke="var(--ink)" stroke-width="1.6"></rect>
+          <text x="100" y="164" text-anchor="middle" font-family="ui-monospace, monospace" font-size="16" fill="var(--ink)" font-weight="700">?</text>
+        </svg>
+      </div>
+      <p>More experiments brewing — check back when the dog wakes up.</p>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"theme":{"editor":"enum","options":["cream","dark"],"default":"cream"},"$preview":{"width":1240,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { themeClass: 'theme-' + (this.props.theme ?? 'cream') };
+  }
+}
+</script>
+</body>
+</html>

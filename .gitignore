@@ -8,3 +8,6 @@ build/
 .DS_Store
 Thumbs.db
 *.log
+
+# Generated design canvas — rebuilt from design/*.dc.html + design/canvas.json
+design/lazydoglab-projects-grid.html
