@@ -148,18 +148,49 @@ function LangSwitcher({ lang, setLang }) {
 }
 
 // ---------- Project card ----------
-function ProjectCard({ exp, url, liquid, accent, label, idx }) {
+const Arrow = () => (
+  <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
+    <path d="M1 7 H 19 M 14 2 L 20 7 L 14 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+function ProjectCard({ exp, url, liquid, accent, label, featured, tape }) {
   const [hover, setHover] = useState(false);
+  const host = url.replace('https://', '').replace(/\/$/, '');
+  const shared = {
+    href: url,
+    target: '_blank',
+    rel: 'noopener',
+    onMouseEnter: () => setHover(true),
+    onMouseLeave: () => setHover(false),
+    style: { '--card-accent': liquid },
+  };
+
+  // The featured slot spans two columns and reads horizontally, so the grid
+  // fills exactly two rows (1 feature + 6 regular = 8 cells).
+  if (featured) {
+    return (
+      <a className={`project-card project-card--featured ${hover ? 'is-hover' : ''}`} {...shared}>
+        <div className="feature-tape">{tape}</div>
+        <div className="card-flask card-flask--lg">
+          <Flask liquid={liquid} accent={accent} label={label} size={190} tiltDeg={hover ? -3 : 0} />
+        </div>
+        <div className="card-body">
+          <div className="card-tag">{exp.tag}</div>
+          <h3 className="card-name">{exp.name}</h3>
+          <p className="card-desc">{exp.desc}</p>
+          <div className="card-cta">
+            <span>{exp.cta}</span>
+            <Arrow />
+          </div>
+          <div className="card-host">{host}</div>
+        </div>
+      </a>
+    );
+  }
+
   return (
-    <a
-      className={`project-card ${hover ? 'is-hover' : ''}`}
-      href={url}
-      target="_blank"
-      rel="noopener"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      style={{ '--card-accent': liquid }}
-    >
+    <a className={`project-card ${hover ? 'is-hover' : ''}`} {...shared}>
       <div className="card-flask">
         <Flask liquid={liquid} accent={accent} label={label} size={180} tiltDeg={hover ? -3 : 0} />
       </div>
@@ -169,12 +200,10 @@ function ProjectCard({ exp, url, liquid, accent, label, idx }) {
         <p className="card-desc">{exp.desc}</p>
         <div className="card-cta">
           <span>{exp.cta}</span>
-          <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
-            <path d="M1 7 H 19 M 14 2 L 20 7 L 14 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          <Arrow />
         </div>
       </div>
-      <div className="card-host">{url.replace('https://', '')}</div>
+      <div className="card-host">{host}</div>
     </a>
   );
 }
@@ -282,18 +311,22 @@ function App() {
 
   // Liquid palette options
   const liquidPalettes = {
-    shibaTeal: { lingua: '#E89B3C', drive: '#4BAEC9', mic: '#7FBF7F', ridey: '#D85D5D' },
-    classic:   { lingua: '#4BAEC9', drive: '#7FD0E3', mic: '#1F6F8B', ridey: '#5B7CC8' },
-    sunset:    { lingua: '#E89B3C', drive: '#D85D5D', mic: '#8C5BB0', ridey: '#E8B23C' },
+    shibaTeal: { lingua: '#E89B3C', drive: '#4BAEC9', mic: '#7FBF7F', ridey: '#D85D5D', ftp: '#9B7BC4', zhinzen: '#C46B9E', rainsoon: '#5C7DB8' },
+    classic:   { lingua: '#4BAEC9', drive: '#7FD0E3', mic: '#1F6F8B', ridey: '#5B7CC8', ftp: '#6E8CA8', zhinzen: '#8AA9C4', rainsoon: '#3F6E92' },
+    sunset:    { lingua: '#E89B3C', drive: '#D85D5D', mic: '#8C5BB0', ridey: '#E8B23C', ftp: '#B0568C', zhinzen: '#E8734A', rainsoon: '#7C5BA8' },
   };
   const liquids = liquidPalettes[tweaks.accentLiquid] || liquidPalettes.shibaTeal;
   const accent = 'var(--ink)';
 
+  // Newest experiment takes the featured slot; the rest follow in EXP order.
   const projects = [
-    { key: 'lingua', exp: t.projects.lingua, url: 'https://linguabridge.lazydoglab.com/', liquid: liquids.lingua, label: 'L-01' },
-    { key: 'drive',  exp: t.projects.drive,  url: 'https://drive.lazydoglab.com/',        liquid: liquids.drive,  label: 'D-02' },
-    { key: 'mic',    exp: t.projects.mic,    url: 'https://mic.lazydoglab.com/',          liquid: liquids.mic,    label: 'M-03' },
-    { key: 'ridey',  exp: t.projects.ridey,  url: 'https://ridey.lazydoglab.com/',        liquid: liquids.ridey,  label: 'R-04' },
+    { key: 'rainsoon', exp: t.projects.rainsoon, url: 'https://rainsoon.lazydoglab.com/',          liquid: liquids.rainsoon, label: 'W-07', featured: true },
+    { key: 'ftp',      exp: t.projects.ftp,      url: 'https://github.com/jiuyunjun/local-net-ftp', liquid: liquids.ftp,      label: 'F-05' },
+    { key: 'zhinzen',  exp: t.projects.zhinzen,  url: 'https://zhinzen.lazydoglab.com/',            liquid: liquids.zhinzen,  label: 'Z-06' },
+    { key: 'lingua',   exp: t.projects.lingua,   url: 'https://linguabridge.lazydoglab.com/',       liquid: liquids.lingua,   label: 'L-01' },
+    { key: 'drive',    exp: t.projects.drive,    url: 'https://drive.lazydoglab.com/',              liquid: liquids.drive,    label: 'D-02' },
+    { key: 'mic',      exp: t.projects.mic,      url: 'https://mic.lazydoglab.com/',                liquid: liquids.mic,      label: 'M-03' },
+    { key: 'ridey',    exp: t.projects.ridey,    url: 'https://ridey.lazydoglab.com/',              liquid: liquids.ridey,    label: 'R-04' },
   ];
 
   return (
@@ -372,7 +405,7 @@ function App() {
         </div>
 
         <div className="project-grid">
-          {projects.map((p, i) => (
+          {projects.map((p) => (
             <ProjectCard
               key={p.key}
               exp={p.exp}
@@ -380,7 +413,8 @@ function App() {
               liquid={p.liquid}
               accent={accent}
               label={p.label}
-              idx={i}
+              featured={p.featured}
+              tape={t.featuredTape}
             />
           ))}
         </div>
