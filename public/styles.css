@@ -547,8 +547,7 @@ img { display: block; max-width: 100%; }
 }
 .project-card:hover .card-flask { transform: translateY(-4px); }
 
-/* Featured specimen — spans two columns and reads horizontally, so the grid
-   fills exactly two rows (1 feature + 6 regular = 8 cells). */
+/* Featured specimen — spans two columns and reads horizontally. */
 .project-card--featured {
   grid-column: span 2;
   flex-direction: row;

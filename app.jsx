@@ -181,8 +181,7 @@ function ProjectCard({ id, position, exp, url, liquid, accent, label, featured, 
     style: { '--card-accent': liquid },
   };
 
-  // The featured slot spans two columns and reads horizontally, so the grid
-  // fills exactly two rows (1 feature + 6 regular = 8 cells).
+  // The featured slot spans two columns and reads horizontally.
   if (featured) {
     return (
       <a className={`project-card project-card--featured ${hover ? 'is-hover' : ''}`} {...shared}>
@@ -327,9 +326,9 @@ function App() {
 
   // Liquid palette options
   const liquidPalettes = {
-    shibaTeal: { lingua: '#E89B3C', drive: '#4BAEC9', mic: '#7FBF7F', ridey: '#D85D5D', ftp: '#9B7BC4', zhinzen: '#C46B9E', rainsoon: '#5C7DB8' },
-    classic:   { lingua: '#4BAEC9', drive: '#7FD0E3', mic: '#1F6F8B', ridey: '#5B7CC8', ftp: '#6E8CA8', zhinzen: '#8AA9C4', rainsoon: '#3F6E92' },
-    sunset:    { lingua: '#E89B3C', drive: '#D85D5D', mic: '#8C5BB0', ridey: '#E8B23C', ftp: '#B0568C', zhinzen: '#E8734A', rainsoon: '#7C5BA8' },
+    shibaTeal: { lingua: '#E89B3C', drive: '#4BAEC9', mic: '#7FBF7F', ridey: '#D85D5D', ftp: '#9B7BC4', zhinzen: '#C46B9E', rainsoon: '#5C7DB8', tsuchibue: '#B5764A' },
+    classic:   { lingua: '#4BAEC9', drive: '#7FD0E3', mic: '#1F6F8B', ridey: '#5B7CC8', ftp: '#6E8CA8', zhinzen: '#8AA9C4', rainsoon: '#3F6E92', tsuchibue: '#5A86A8' },
+    sunset:    { lingua: '#E89B3C', drive: '#D85D5D', mic: '#8C5BB0', ridey: '#E8B23C', ftp: '#B0568C', zhinzen: '#E8734A', rainsoon: '#7C5BA8', tsuchibue: '#C9853F' },
   };
   const liquids = liquidPalettes[tweaks.accentLiquid] || liquidPalettes.shibaTeal;
   const accent = 'var(--ink)';
@@ -337,6 +336,7 @@ function App() {
   // Newest experiment takes the featured slot; the rest follow in EXP order.
   const projects = [
     { key: 'rainsoon', exp: t.projects.rainsoon, url: 'https://rainsoon.lazydoglab.com/',          liquid: liquids.rainsoon, label: 'W-07', featured: true },
+    { key: 'tsuchibue', exp: t.projects.tsuchibue, url: 'https://tsuchibue.lazydoglab.com/',       liquid: liquids.tsuchibue, label: 'T-08' },
     { key: 'ftp',      exp: t.projects.ftp,      url: 'https://github.com/jiuyunjun/local-net-ftp', liquid: liquids.ftp,      label: 'F-05' },
     { key: 'zhinzen',  exp: t.projects.zhinzen,  url: 'https://zhinzen.lazydoglab.com/',            liquid: liquids.zhinzen,  label: 'Z-06' },
     { key: 'lingua',   exp: t.projects.lingua,   url: 'https://linguabridge.lazydoglab.com/',       liquid: liquids.lingua,   label: 'L-01' },
