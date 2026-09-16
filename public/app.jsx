@@ -1,6 +1,12 @@
 /* global React */
 const { useState, useEffect, useRef } = React;
 
+// Analytics event. window.track is defined in index.html and is a no-op
+// logger until a GA measurement ID is configured.
+const track = (name, params) => {
+  try { window.track && window.track(name, params); } catch (e) {}
+};
+
 // ---------- Flask SVG (the recurring lab motif) ----------
 function Flask({ liquid = '#4BAEC9', bubbles = true, label, accent = '#1F3A5C', tiltDeg = 0, size = 260 }) {
   // Erlenmeyer-style flask. Neck top, then trapezoid body.
@@ -105,7 +111,11 @@ function ThemeToggle({ theme, setTheme }) {
       className={`theme-toggle ${isDark ? 'is-dark' : ''}`}
       aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
       aria-pressed={isDark}
-      onClick={() => setTheme(isDark ? 'cream' : 'dark')}
+      onClick={() => {
+        const next = isDark ? 'cream' : 'dark';
+        track('theme_change', { theme: next, source: 'toggle' });
+        setTheme(next);
+      }}
       title={isDark ? 'Light' : 'Dark'}
     >
       <span className="tt-track" aria-hidden="true">
@@ -138,7 +148,10 @@ function LangSwitcher({ lang, setLang }) {
           role="tab"
           aria-selected={lang === l}
           className={`lang-btn ${lang === l ? 'is-active' : ''}`}
-          onClick={() => setLang(l)}
+          onClick={() => {
+            if (l !== lang) track('language_change', { language: l, previous_language: lang });
+            setLang(l);
+          }}
         >
           {labels[l]}
         </button>
@@ -154,13 +167,15 @@ const Arrow = () => (
   </svg>
 );
 
-function ProjectCard({ exp, url, liquid, accent, label, featured, tape }) {
+function ProjectCard({ id, position, exp, url, liquid, accent, label, featured, tape }) {
   const [hover, setHover] = useState(false);
   const host = url.replace('https://', '').replace(/\/$/, '');
   const shared = {
     href: url,
     target: '_blank',
     rel: 'noopener',
+    // Opens in a new tab, so the page stays alive for the beacon to go out.
+    onClick: () => track('project_click', { project: id, link_url: url, position, featured: !!featured }),
     onMouseEnter: () => setHover(true),
     onMouseLeave: () => setHover(false),
     style: { '--card-accent': liquid },
@@ -212,6 +227,7 @@ function ProjectCard({ exp, url, liquid, accent, label, featured, tape }) {
 function ContactSection({ t }) {
   const [copied, setCopied] = useState(null);
   const copy = (val, key) => {
+    track('contact_copy', { method: key });
     try {
       navigator.clipboard.writeText(val);
       setCopied(key);
@@ -241,7 +257,7 @@ function ContactSection({ t }) {
             </div>
             <div className="cc-body">
               <div className="cc-label">{t.contact.emailLabel}</div>
-              <a className="cc-value" href="mailto:jiu.yun@foxmail.com">jiu.yun@foxmail.com</a>
+              <a className="cc-value" href="mailto:jiu.yun@foxmail.com" onClick={() => track('contact_click', { method: 'email' })}>jiu.yun@foxmail.com</a>
             </div>
             <button className="cc-copy" onClick={() => copy('jiu.yun@foxmail.com', 'email')}>
               {copied === 'email' ? t.contact.copied : t.contact.copy}
@@ -336,15 +352,15 @@ function App() {
 
       {/* TOP BAR */}
       <header className="topbar">
-        <a className="brand" href="#top">
+        <a className="brand" href="#top" onClick={() => track('nav_click', { target: 'top', location: 'brand' })}>
           <img src="assets/logo.png?v=__V__" alt="" className="brand-mark" />
           <span className="brand-text">
             <span className="brand-lazy">LazyDog</span><span className="brand-lab">Lab</span>
           </span>
         </a>
         <nav className="topnav">
-          <a href="#projects">{t.nav.projects}</a>
-          <a href="#contact">{t.nav.contact}</a>
+          <a href="#projects" onClick={() => track('nav_click', { target: 'projects', location: 'topnav' })}>{t.nav.projects}</a>
+          <a href="#contact" onClick={() => track('nav_click', { target: 'contact', location: 'topnav' })}>{t.nav.contact}</a>
         </nav>
         <div className="topbar-tools">
           <ThemeToggle theme={tweaks.theme} setTheme={setTheme} />
@@ -370,7 +386,7 @@ function App() {
           </h1>
           <p className="hero-lede">{t.hero.lede}</p>
           <div className="hero-actions">
-            <a className="btn btn-primary" href="#projects">
+            <a className="btn btn-primary" href="#projects" onClick={() => track('nav_click', { target: 'projects', location: 'hero_cta' })}>
               {t.hero.cta}
               <svg width="20" height="12" viewBox="0 0 22 14" fill="none"><path d="M1 7 H 19 M 14 2 L 20 7 L 14 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
@@ -405,9 +421,11 @@ function App() {
         </div>
 
         <div className="project-grid">
-          {projects.map((p) => (
+          {projects.map((p, i) => (
             <ProjectCard
               key={p.key}
+              id={p.key}
+              position={i + 1}
               exp={p.exp}
               url={p.url}
               liquid={p.liquid}

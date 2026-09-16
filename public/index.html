@@ -8,6 +8,28 @@
   <meta name="theme-color" content="#F4EFE0" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#15243A" media="(prefers-color-scheme: dark)" />
   <meta name="description" content="Lazy Dog Lab — small experiments, big naps. LinguaBridge, Drive, Mic, Ridey." />
+  <!-- Google Analytics 4, web stream of the "LazyDog Homepage Web" Firebase
+       app. When previewing on localhost nothing is loaded and window.track
+       only logs to the console. -->
+  <script>
+    (function () {
+      var GA_ID = 'G-ZTYFX3ZNGH';
+      var local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+      if (local) {
+        window.track = function (name, params) { console.debug('[track]', name, params || {}); };
+        return;
+      }
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', GA_ID);
+      window.track = function (name, params) { gtag('event', name, params || {}); };
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet" />
